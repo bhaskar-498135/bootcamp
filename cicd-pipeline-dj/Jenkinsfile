@@ -1,11 +1,13 @@
 node{
 
+//dir ('/home/labuser/Documents/'){
+
 def mvnHome
 def dockerHome
 stage('checkout') 
 
 {
-    
+    //build 'checkout'
     git 'https://github.com/bhaskar-498135/bootcamp.git'
     
     mvnHome = tool 'maven-3'
@@ -14,7 +16,7 @@ stage('checkout')
 
 stage('build and test') {
     
-    dir('bootcamp/cicd-pipeline-dj'){
+    dir('cicd-pipeline-dj'){
     
    withEnv(["MVN_HOME=$mvnHome"]) {
             
@@ -25,5 +27,36 @@ stage('build and test') {
     }
 }
 
+stage('create docker images') {
     
+    dir('cicd-pipeline-dj'){
+    withEnv(["DOCKER_HOME=$dockerHome"]) {
+    
+    sh '"$DOCKER_HOME/bin/docker" build -t mavurubhaskar/bootcamp-war:1.0 .'
+}
+}
+}
+
+stage('push docker images') {
+    
+    dir('cicd-pipeline-dj'){
+   
+   withEnv(["DOCKER_HOME=$dockerHome"]) { 
+    withCredentials([string(credentialsId: 'dockerpwd', variable: 'dockercred')]) {
+    
+    
+    sh "docker login -u mavurubhaskar -p ${dockercred}"
+}
+    
+    
+    sh 'docker push mavurubhaskar/bootcamp-war:1.0'
+   }
+}
+
+}
+
+stage('run docker images') {
+}
+    
+//}
 }
