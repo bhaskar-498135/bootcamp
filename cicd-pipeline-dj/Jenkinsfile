@@ -1,0 +1,29 @@
+node{
+
+def mvnHome
+def dockerHome
+stage('checkout') 
+
+{
+    
+    git 'https://github.com/bhaskar-498135/bootcamp.git'
+    
+    mvnHome = tool 'maven-3'
+    dockerHome = tool 'docker'
+}
+
+stage('build and test') {
+    
+    dir('bootcamp/cicd-pipeline-dj'){
+    
+   withEnv(["MVN_HOME=$mvnHome"]) {
+            
+            
+                sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
+            
+        }
+    }
+}
+
+    
+}
