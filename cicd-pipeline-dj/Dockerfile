@@ -1,6 +1,6 @@
  FROM tomcat:9.0-alpine
  
- EXPOSE 9999
+ EXPOSE 8888
  
  ARG WAR_FILE=/*.war
  
