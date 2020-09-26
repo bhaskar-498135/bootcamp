@@ -1,6 +1,6 @@
  FROM tomcat:8.0
  
- EXPOSE 8888
+ EXPOSE 9999
  
  ARG WAR_FILE=target/*.war
  ARG conf=tomcat-users.xml
