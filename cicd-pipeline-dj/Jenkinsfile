@@ -56,6 +56,8 @@ stage('push docker images') {
 }
 
 stage('run docker images') {
+    
+     sh 'docker run -p 8888:8080 -d mavurubhaskar/bootcamp-war:1.0'
 }
     
 //}
